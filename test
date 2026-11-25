@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HIGH MANUFACTURE</title>
+<style>
+:root{--navy:#0f1b2d;--or:#ff6b1a;--bg:#f5f7fa;--tx:#1d2733}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+.nav{display:flex;justify-content:space-between;align-items:center;background:var(--navy);padding:.8rem 5%;position:sticky;top:0;z-index:5}
+.logo{color:#fff;font-weight:800;text-decoration:none}.logo span{color:var(--or)}
+nav a{color:#dde;margin-left:1.2rem;text-decoration:none}nav a:hover,nav a.on{color:var(--or)}
+.badge{background:var(--or);color:#fff;border-radius:99px;padding:0 .5rem;font-size:.75rem}
+.menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.6rem}
+.view{display:none}.view.show{display:block}
+.hero{background:linear-gradient(135deg,var(--navy),#27435f);color:#fff;padding:5rem 5%}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);margin:0 0 1rem;max-width:700px}
+.btn{display:inline-block;background:var(--or);color:#fff;border:0;padding:.7rem 1.4rem;border-radius:10px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}.btn.dark{background:var(--navy)}.btn.ghost{background:none;border:2px solid #fff}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;padding:2rem 5%;text-align:center}
+.stats b{font-size:2.2rem;color:var(--or);display:block}
+.wrap{padding:2.5rem 5%;max-width:1150px;margin:auto}.narrow{max-width:600px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.2rem}
+.card{background:#fff;border-radius:10px;padding:1.2rem;box-shadow:0 2px 8px #0001}
+.tag{font-size:.75rem;background:#ffe9dc;color:#b34700;border-radius:99px;padding:.1rem .6rem}
+.inline{display:flex;gap:.6rem;flex-wrap:wrap}
+input,select,textarea{width:100%;padding:.65rem;border:1px solid #bcc;border-radius:8px;font:inherit}
+.inline input,.inline select{flex:1;min-width:180px;width:auto}
+label{display:block;margin-top:.9rem;font-weight:600}
+.err{color:#c0182b;min-height:1rem;display:block}.bad{border-color:#c0182b}
+.msg{min-height:1.4rem}.ok{color:#14803c}.fail{color:#c0182b}
+.modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;padding:1rem;z-index:10}
+.modal[hidden]{display:none}
+.box{background:#fff;border-radius:10px;padding:1.5rem;max-width:460px;width:100%;position:relative}
+.x{position:absolute;right:.7rem;top:.5rem;border:0;background:none;font-size:1.2rem;cursor:pointer}
+footer{background:var(--navy);color:#aab;text-align:center;padding:1.2rem;margin-top:2rem}
+@media(max-width:700px){
+.menu-btn{display:block}
+nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--navy);padding:1rem 5%}
+nav.open{display:block}nav a{display:block;margin:.6rem 0}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="#home">HIGH<span>MANUFACTURE</span></a>
+  <button id="menuBtn" class="menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  <nav id="menu">
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <a href="#quote">Get a Quote <b id="qCount" class="badge">0</b></a>
+  </nav>
+</header>
+
+<!-- PAGE 1: HOME -->
+<main id="home" class="view">
+  <section class="hero">
+    <h1>Precision parts. Delivered on time.</h1>
+    <p>CNC machining, sheet metal and injection moulding, from prototype to 100,000 units.</p>
+    <a class="btn" href="#products">Browse Products</a>
+    <a class="btn ghost" href="#quote">Request a Quote</a>
+  </section>
+  <section class="stats">
+    <div><b data-count="25">0</b>Years experience</div>
+    <div><b data-count="480">0</b>Active clients</div>
+    <div><b data-count="12">0</b>CNC machines</div>
+    <div><b data-count="99">0</b>% on-time delivery</div>
+  </section>
+  <section class="wrap">
+    <h2>What we do</h2>
+    <div class="grid">
+      <article class="card"><h3>CNC Machining</h3><p>Tolerances to ±0.01 mm in steel, aluminium and brass.</p></article>
+      <article class="card"><h3>Sheet Metal</h3><p>Laser cutting, bending and powder coating.</p></article>
+      <article class="card"><h3>Injection Moulding</h3><p>Tooling plus high-volume plastic parts.</p></article>
+    </div>
+    <h2>Stay updated</h2>
+    <form id="newsForm" class="inline" novalidate>
+      <input id="newsEmail" type="email" placeholder="you@company.com" aria-label="Email">
+      <button class="btn">Subscribe</button>
+    </form>
+    <p id="newsMsg" class="msg" role="status"></p>
+  </section>
+</main>
+
+<!-- PAGE 2: PRODUCTS -->
+<main id="products" class="view">
+  <section class="wrap">
+    <h1>Products</h1>
+    <div class="inline">
+      <input id="search" type="search" placeholder="Search products…" aria-label="Search">
+      <select id="cat" aria-label="Category"><option value="All">All categories</option></select>
+    </div>
+    <p id="resultInfo" class="msg"></p>
+    <div id="list" class="grid"></div>
+  </section>
+</main>
+
+<!-- PAGE 3: QUOTE -->
+<main id="quote" class="view">
+  <section class="wrap narrow">
+    <h1>Request a Quote</h1>
+    <div id="quoteList" class="card"></div>
+    <form id="quoteForm" novalidate>
+      <label>Full name<input id="name"></label><small class="err" id="e-name"></small>
+      <label>Email<input id="email" type="email"></label><small class="err" id="e-email"></small>
+      <label>Phone (10 digits, optional)<input id="phone" inputmode="numeric"></label><small class="err" id="e-phone"></small>
+      <label>Quantity<input id="qty" type="number" min="1"></label><small class="err" id="e-qty"></small>
+      <label>Message<textarea id="message" rows="4"></textarea></label><small class="err" id="e-message"></small>
+      <p><button class="btn">Send Request</button></p>
+    </form>
+    <p id="formMsg" class="msg" role="status"></p>
+  </section>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="box"><button id="closeModal" class="x" aria-label="Close">✕</button><div id="modalBody"></div></div>
+</div>
+
+<footer>© 2026 HIGH MANUFACTURE · Nagpur, India · info@highmanufacture.example</footer>
+
+<script>
+"use strict";
+// ---------- DATA ----------
+const PRODUCTS=[
+ {id:1,name:"CNC Steel Shaft",cat:"Machining",moq:100,price:18.5,desc:"EN8 steel, ground finish, ±0.01 mm."},
+ {id:2,name:"Aluminium Flange",cat:"Machining",moq:50,price:12.75,desc:"6061-T6 aluminium, anodised."},
+ {id:3,name:"Laser-Cut Bracket",cat:"Sheet Metal",moq:200,price:4.2,desc:"2 mm mild steel, powder coated."},
+ {id:4,name:"Control Panel Enclosure",cat:"Sheet Metal",moq:20,price:64,desc:"IP54 rated, wall-mount."},
+ {id:5,name:"ABS Housing",cat:"Moulding",moq:1000,price:1.8,desc:"Injection moulded, texture finish."},
+ {id:6,name:"Nylon Gear Set",cat:"Moulding",moq:500,price:3.4,desc:"PA66, low-noise, 20-tooth."}
+];
+const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const FIELDS=["name","email","phone","qty","message"];
+
+// ---------- HELPERS ----------
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store={
+  get(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+};
+const getQuote=()=>store.get("hm_quote",[]);
+const setQuote=a=>{store.set("hm_quote",a);$("qCount").textContent=a.length};
+
+function validateQuote(d){
+  const e={};
+  if(!d.name||d.name.trim().length<2)e.name="Please enter your full name (min 2 letters).";
+  if(!EMAIL.test(d.email||""))e.email="Enter a valid email like name@company.com.";
+  if(d.phone&&!/^\d{10}$/.test(d.phone))e.phone="Phone must be exactly 10 digits.";
+  if(!(Number.isInteger(Number(d.qty))&&Number(d.qty)>=1))e.qty="Quantity must be a whole number of 1 or more.";
+  if(!d.message||d.message.trim().length<10)e.message="Message must be at least 10 characters.";
+  return e;
+}
+
+// ---------- NAVIGATION (3 pages in one file) ----------
+function route(){
+  const v=["home","products","quote"].includes(location.hash.slice(1))?location.hash.slice(1):"home";
+  document.querySelectorAll(".view").forEach(s=>s.classList.toggle("show",s.id===v));
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.hash==="#"+v));
+  $("menu").classList.remove("open");
+  if(v==="products")renderProducts();
+  if(v==="quote")drawQuote();
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+$("menuBtn").onclick=()=>{const o=$("menu").classList.toggle("open");$("menuBtn").setAttribute("aria-expanded",o)};
+
+// ---------- HOME ----------
+document.querySelectorAll("[data-count]").forEach(el=>{
+  const t=+el.dataset.count;let n=0;
+  const id=setInterval(()=>{n+=Math.ceil(t/40);if(n>=t){n=t;clearInterval(id)}el.textContent=n},30);
+});
+$("newsForm").onsubmit=e=>{
+  e.preventDefault();
+  const v=$("newsEmail").value.trim(),m=$("newsMsg");
+  if(!EMAIL.test(v)){m.textContent="Please enter a valid email.";m.className="msg fail";return}
+  const l=store.get("hm_news",[]);
+  if(l.includes(v)){m.textContent="Already subscribed.";m.className="msg fail";return}
+  l.push(v);store.set("hm_news",l);
+  m.textContent="Subscribed. Thank you!";m.className="msg ok";e.target.reset();
+};
+
+// ---------- PRODUCTS ----------
+[...new Set(PRODUCTS.map(p=>p.cat))].forEach(c=>$("cat").add(new Option(c,c)));
+function renderProducts(){
+  const q=$("search").value.trim().toLowerCase(),c=$("cat").value;
+  const list=PRODUCTS.filter(p=>(c==="All"||p.cat===c)&&(p.name+" "+p.desc).toLowerCase().includes(q));
+  $("resultInfo").textContent=list.length?list.length+" product(s) found":"No products match your search.";
+  $("list").innerHTML=list.map(p=>`<article class="card"><span class="tag">${esc(p.cat)}</span>
+    <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p><p><b>$${p.price.toFixed(2)}</b> / unit</p>
+    <button class="btn" data-d="${p.id}">Details</button>
+    <button class="btn dark" data-a="${p.id}">${getQuote().includes(p.id)?"Remove":"Add to quote"}</button></article>`).join("");
+}
+$("search").oninput=renderProducts;
+$("cat").onchange=renderProducts;
+$("list").onclick=e=>{
+  const d=+e.target.dataset.d,a=+e.target.dataset.a;
+  if(d){
+    const p=PRODUCTS.find(x=>x.id===d);
+    $("modalBody").innerHTML=`<h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+      <p>Category: ${esc(p.cat)}<br>Minimum order: ${p.moq} units<br>Price: $${p.price.toFixed(2)}/unit</p>`;
+    $("modal").hidden=false;
+  }
+  if(a){const q=getQuote();setQuote(q.includes(a)?q.filter(i=>i!==a):[...q,a]);renderProducts()}
+};
+$("closeModal").onclick=()=>$("modal").hidden=true;
+$("modal").onclick=e=>{if(e.target.id==="modal")$("modal").hidden=true};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("modal").hidden=true});
+
+// ---------- QUOTE FORM ----------
+function drawQuote(){
+  const q=getQuote().map(i=>PRODUCTS.find(p=>p.id===i)).filter(Boolean);
+  $("quoteList").innerHTML=q.length
+    ?"<b>Selected products:</b><ul>"+q.map(p=>`<li>${esc(p.name)} (MOQ ${p.moq})</li>`).join("")+"</ul>"
+    :"No products selected. <a href='#products'>Browse products</a>";
+}
+$("quoteForm").onsubmit=e=>{
+  e.preventDefault();
+  const d={};FIELDS.forEach(k=>d[k]=$(k).value.trim());
+  const err=validateQuote(d),m=$("formMsg");
+  FIELDS.forEach(k=>{$("e-"+k).textContent=err[k]||"";$(k).classList.toggle("bad",!!err[k])});
+  if(Object.keys(err).length){m.textContent="Please fix the errors above.";m.className="msg fail";return}
+  const all=store.get("hm_requests",[]);
+  all.push({...d,products:getQuote(),date:new Date().toISOString()});
+  store.set("hm_requests",all);
+  setQuote([]);drawQuote();e.target.reset();
+  m.textContent="Request sent! We will reply within 1 business day.";m.className="msg ok";
+};
+
+// ---------- START ----------
+$("qCount").textContent=getQuote().length;
+route();
+</script>
+</body>
+</html>
